@@ -1,6 +1,8 @@
 package com.fawry.bank.Repos.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,12 +20,17 @@ public class Account {
     @Column(name="id")
     long id;
 
+
+    @NotNull(message = "CardNumber cannot be null")
     @Column(name="card_number")
     String CardNumber  ;
 
+    @NotNull(message = "Deposit cannot be null")
+    @PositiveOrZero
     @Column(name="deposit")
-    double Deposit  ;
+    double Deposit  ;//balance
 
+    @NotNull(message = "Phone number cannot be null")
     @Column(name="phonenumper")
     String PhoneNumber ;
 

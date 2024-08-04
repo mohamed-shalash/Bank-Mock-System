@@ -12,14 +12,12 @@ import com.fawry.bank.Repos.LogRepo;
 import com.fawry.bank.Repos.UserRepo;
 import com.fawry.bank.Service.AccountService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -116,8 +114,8 @@ public class AccountServiceImpl implements AccountService {
         account.setAddress(address);
 
         User user =userRepo.findByUsernameaAndPassword(accountModule.getUser().getUser_name(),accountModule.getUser().getPassword());
-        if (user == null)
-            return ;
+       /* if (user == null)
+            return ;*/
 
         account.setUser(user);
 
@@ -136,11 +134,11 @@ public class AccountServiceImpl implements AccountService {
     public void updateAccount(AccountModule accountModule) {
         Account account ;
 
-        try {
+       // try {
             account =accountRepo.findByCardNumber(accountModule.getCardNumber());
-        } catch (Exception e) {
+       /* } catch (Exception e) {
             return ;
-        }
+        }*/
 
         Address address =new Address();
 
@@ -194,13 +192,14 @@ public class AccountServiceImpl implements AccountService {
         log.setDate(LocalDate.now() );
         log.setTime(LocalTime.now());
         log.setKind("Update");
+        //log.setLog(logevent);
         log.setLog(logevent);
         logRepo.save(log);
     }
 
     @Transactional
     @Override
-    public String DrawFromAccount(String CardNumber,double amount) {
+    public String DrawFromAccount(String CardNumber,double amount) {//deposit with draw
         Account account;
         try {
              account = accountRepo.findByCardNumber(CardNumber);

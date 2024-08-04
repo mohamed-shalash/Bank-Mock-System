@@ -22,13 +22,15 @@ public class BankApplication {
 		return args -> {
 			User user =new User();
 			user.setUser_name("mohamed");
-			user.setPassword("123");
+			user.setPassword("123456");
 			user.setRole("Admin");
+			user.setEmail("m.shalash0@gmail.com");
 
 			User user1 =new User();
 			user1.setUser_name("tawfeek");
 			user1.setPassword("password");
 			user1.setRole("USER");
+			user1.setEmail("t.shalash0@gmail.com");
 
 			userRepo.save(user);
 			userRepo.save(user1);
@@ -42,8 +44,9 @@ public class BankApplication {
 
 			User user =new User();
 			user.setUser_name("mohamed");
-			user.setPassword("123");
+			user.setPassword("123456");
 			user.setRole("Admin");
+			user.setEmail("m2.shalash0@gmail.com");
 			userRepo.save(user);
 
 			Account account =new Account();

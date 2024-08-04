@@ -2,6 +2,7 @@ package com.fawry.bank.Rest;
 
 import com.fawry.bank.Models.AccountModule;
 import com.fawry.bank.Service.AccountService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,19 +27,19 @@ public class AccountController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addAccount(@RequestBody AccountModule account){
+    public void addAccount(@Valid @RequestBody AccountModule account){
         accountService.addAccount(account);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void updateAccount(@RequestBody  AccountModule account){
+    public void updateAccount(@Valid  @RequestBody  AccountModule account){
         accountService.updateAccount(account);
     }
 
     @PutMapping("/{CardNumber}/{amount}")
     @ResponseStatus(HttpStatus.CREATED)
-    public String DrawFromAccount(@PathVariable String CardNumber,@PathVariable double amount){
+    public String DrawFromAccount( @PathVariable String CardNumber, @PathVariable double amount){
         return accountService.DrawFromAccount(CardNumber,amount);
     }
 
@@ -50,13 +51,13 @@ public class AccountController {
 
     @PutMapping("/{FromCardNumber}/{ToCardNumber}/{amount}")
     @ResponseStatus(HttpStatus.CREATED)
-    public String DrawFromAccountToAnother(@PathVariable String FromCardNumber,@PathVariable  String ToCardNumber,@PathVariable  double amount){
+    public String DrawFromAccountToAnother( @PathVariable String FromCardNumber, @PathVariable  String ToCardNumber, @PathVariable  double amount){
         return accountService.DrawFromAccountToAnother(FromCardNumber,ToCardNumber,amount);
     }
 
     @DeleteMapping("/{card}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void deleteAccount(@PathVariable String card){
+    public void deleteAccount( @PathVariable String card){
         accountService.deleteAccount(card);
     }
 }

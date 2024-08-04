@@ -12,5 +12,5 @@ public interface UserService  {
 
     public void updateUser(UserModule module);
 
-    public void delete(UserModule module);
+    public void delete(String email);
 }

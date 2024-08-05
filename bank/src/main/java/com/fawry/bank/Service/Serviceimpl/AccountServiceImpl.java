@@ -132,10 +132,7 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public void updateAccount(AccountModule accountModule) {
-        Account account ;
-
-       // try {
-            account =accountRepo.findByCardNumber(accountModule.getCardNumber());
+        Account account =accountRepo.findByCardNumber(accountModule.getCardNumber());
        /* } catch (Exception e) {
             return ;
         }*/
@@ -200,14 +197,9 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public String DrawFromAccount(String CardNumber,double amount) {//deposit with draw
-        Account account;
-        try {
-             account = accountRepo.findByCardNumber(CardNumber);
-        }catch (Exception e){
-            return "account card number may be wrong";
-        }
+        Account  account= accountRepo.findByCardNumber(CardNumber);
 
-        if(amount >account.getDeposit()) return "Cant Draw";
+        if(amount >account.getDeposit()) throw new RuntimeException("Cant Draw amount is larger than your palance");
 
         account.setDeposit(account.getDeposit()-amount);
 
@@ -224,14 +216,11 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public String DrawFromAccountToAnother(String FromCardNumber,String ToCardNumber,double amount) {
-        Account from,to ;
 
-        try {
-            from =accountRepo.findByCardNumber(FromCardNumber);
-            to =accountRepo.findByCardNumber(ToCardNumber);
-        }catch (Exception e){
-            return "account card numbers may be wrong";
-        }
+
+        Account from =accountRepo.findByCardNumber(FromCardNumber);
+        Account to =accountRepo.findByCardNumber(ToCardNumber);
+
 
         if(amount >from.getDeposit()) return "Cant Draw";
         from.setDeposit(from.getDeposit()-amount);
@@ -250,12 +239,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String AddToAccount(String cardNumber, double amount) {
-        Account account;
-        try {
-            account = accountRepo.findByCardNumber(cardNumber);
-        }catch (Exception e){
-            return "account card number may be wrong";
-        }
+        Account account = accountRepo.findByCardNumber(cardNumber);
+
 
         account.setDeposit(account.getDeposit()+amount);
 
@@ -272,12 +257,8 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public String deleteAccount(String card) {
-        Account account ;
-        try {
-            account =accountRepo.findByCardNumber(card);
-        }catch (Exception e){
-            return "account card numbers may be wrong";
-        }
+        Account account =accountRepo.findByCardNumber(card);
+
         accountRepo.deleteById(account.getId());
         Logs log =new Logs();
         log.setDate(LocalDate.now() );

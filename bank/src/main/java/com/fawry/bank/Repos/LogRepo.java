@@ -18,8 +18,8 @@ public interface LogRepo extends JpaRepository<Logs,Long> {
     @Query(value = "SELECT * FROM Logs WHERE log_date = :date", nativeQuery = true)
     List<Logs> findByDate(@Param("date") LocalDate date);
 
-    @Query(value = "SELECT * FROM Logs WHERE log_date = :date and log_time =:time", nativeQuery = true)
-    List<Logs> findByDateAndTime(@Param("date") LocalDate date, @Param("time") LocalTime time);
+    @Query(value = "SELECT * FROM Logs WHERE log_date = :date and log_time between :timeFrom and :timeTo", nativeQuery = true)
+    List<Logs> findByDateAndTime(@Param("date") LocalDate date, @Param("timeFrom") LocalTime timeFrom, @Param("timeTo") LocalTime timeTo);
 
     @Query(value = "SELECT * FROM Logs WHERE kind = :kind", nativeQuery = true)
     List<Logs> findByKind(@Param("kind") String kind);

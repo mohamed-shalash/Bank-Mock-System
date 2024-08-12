@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="header">
+        <h1>Item List</h1>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search by name..." class="hidden3 form-control">
+        <input type="date" id="date"  class="hidden2 form-control">
+        <input type="time" id="time" class="hidden form-control">
+        <input type="time" id="time2"class="hidden form-control">
+
+        <select id="mySelect" (change)="logSelectedItem()" class="form-control" style="height: 2%;">
+            <option>none</option>
+            <option value="role">Log Role</option>
+            <option value="date">Date</option>
+            <option value="Time">Date Time</option>
+        </select>
+        <button (click)="search()" class="btn btn-success">Search</button>
+        <button (click)="Back()" class="btn btn-danger">back</button>
+    </div>
+
+    <hr>
+    <table style="width:90%;margin-left: 5%;">
+        @for (item of logs; track $index) {
+        <tr>
+            <td style="width:10%;">
+                <p class="text">{{item.date}}</p>
+            <td>
+            <td style="width:10%;">
+                <p class="text">{{item.time}}</p>
+            <td>
+            <td style="width:10%;">
+                <p class="text">{{item.kind}}</p>
+            <td>
+            <td style="width:70%;">
+                <p class="text">{{item.log}} </p>
+
+            <td>
+        </tr>
+        }
+
+    </table>
+
+
+</div>
+

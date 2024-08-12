@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("log")
@@ -30,10 +31,10 @@ public class LogController {
         return logService.getLog(date);
     }
 
-    @GetMapping(params = {"date","time"})
+    @GetMapping(params = {"date","timeFrom","timeTo"})
     @ResponseStatus(HttpStatus.OK)
-    public  List<LogModule> getLog(@RequestParam LocalDate date, @RequestParam LocalTime time){
-        return logService.getLog(date,time);
+    public  List<LogModule> getLog(@RequestParam LocalDate date, @RequestParam LocalTime timeFrom,@RequestParam LocalTime timeTo){
+        return logService.getLog(date,timeFrom,timeTo);
     }//?date=2024-03-15&time=20:55:18
 
     @GetMapping

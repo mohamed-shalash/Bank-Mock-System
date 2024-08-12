@@ -40,9 +40,9 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public List<LogModule> getLog(LocalDate date, LocalTime time) {
+    public List<LogModule> getLog(LocalDate date, LocalTime timeFrom,LocalTime timeTo) {
 
-        List<LogModule> logs = logRepo.findByDateAndTime(date,time).stream()
+        List<LogModule> logs = logRepo.findByDateAndTime(date,timeFrom,timeTo).stream()
                 .map(e->LogModule.builder()
                         .Date(e.getDate())
                         .Time(e.getTime())

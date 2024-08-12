@@ -1,0 +1,83 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3>Add new acount</h3>
+                </div>
+                <div class="card-body">
+                    <form action="#" method="POST">
+
+                        <div class="form-group">
+                            <label for="user_name">User name</label>
+                            <input type="text" id="user_name" name="user_name" value="{{account.user.user_name}}" [(ngModel)]="account.user.user_name" class="form-control" [disabled]="isAdd!=true">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password1">password</label>
+                            <input type="password" id="password1" name="password1" value="{{account.user.password}}" [(ngModel)]="account.user.password" class="form-control" [disabled]="isAdd!=true">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">email</label>
+                            <input type="text" id="email" name="email" value="{{account.user.email}}" [(ngModel)]="account.user.email" class="form-control" [disabled]="isAdd!=true">
+                        </div>
+
+                        <select [(ngModel)]="account.user.role" [disabled]="isAdd != true"  Name="List_of_roles" Size="Number_of_options" class="form-control" >  
+                            <option> User </option>  
+                            <option *ngIf="person?.role === 'Maneger' || person?.role === 'Admin' "> Maneger </option>  
+                            <option *ngIf=" person?.role === 'Admin' "> Admin </option>  
+                        </select>  
+
+                        <hr>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <input type="text" id="country" name="country" class="form-control" value="{{account.address.country}}" [(ngModel)]="account.address.country" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" id="state" name="state" value="{{account.address.state}}" [(ngModel)]="account.address.state" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="City">City</label>
+                            <input type="text" id="City" name="City" value="{{account.address.city}}" [(ngModel)]="account.address.city" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="streate">streate</label>
+                            <input type="text" id="streate" name="streate" value="{{account.address.streate}}" [(ngModel)]="account.address.streate" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="houseID">houseID</label>
+                            <input type="text" id="houseID" name="houseID" value="{{account.address.houseID}}" [(ngModel)]="account.address.houseID" class="form-control" required>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group">
+                            <label for="deposit">Deposit</label>
+                            <input type="text" id="deposit" name="deposit" class="form-control" value="{{account.deposit}}" [(ngModel)]="account.deposit" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" id="cardNumber" name="cardNumber" value="{{account.cardNumber}}" [(ngModel)]="account.cardNumber" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumber">Phone Number</label>
+                            <input type="text" id="phoneNumber" name="phoneNumber" value="{{account.phoneNumber}}" [(ngModel)]="account.phoneNumber" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="text" id="password" name="password" value="{{account.password}}" [(ngModel)]="account.password" class="form-control" required>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" *ngIf="isAdd" class="btn btn-primary" (click)="Add()">add</button>
+                            <button type="submit" *ngIf="isAdd!=true" class="btn btn-primary" (click)="Update()">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

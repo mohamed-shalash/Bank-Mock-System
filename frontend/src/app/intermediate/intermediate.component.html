@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="header">
+        <h1>Hi</h1>
+    </div>
+    
+    <div class="atm-options">
+        <button 
+    class="btn btn-success" 
+    *ngIf="isAdmin" 
+    (click)="navigateTo('personManeger')" 
+    style="width: 10%;">
+    Manager
+</button>
+
+    @if(User.role === 'Maneger' || User.role === 'Admin'){
+        <button class="btn btn-success" (click)="navigateTo('personUser')" style="width: 10%;">user</button>
+    }
+        <button class="btn btn-success" (click)="navigateTo('account')"style="width: 10%;">accounts</button>
+        <button class="btn btn-success" (click)="navigateTo('log')"    style="width: 10%;">logs</button>
+    </div>
+</div>

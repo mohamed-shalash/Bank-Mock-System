@@ -12,4 +12,5 @@ public class AccountModule {
     String PhoneNumber ;
     UserModule user;
     AddressModule address;
+    String password;
 }

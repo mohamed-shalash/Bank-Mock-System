@@ -1,0 +1,12 @@
+<div class="container">
+    <div class="header">
+        <h1>Withdraw Money</h1>
+    </div>
+    
+    <div class="withdraw-form">
+        <label for="withdrawAmount">Enter amount to withdraw:</label>
+        <input type="number" class="form-control" id="withdrawAmount" [(ngModel)]="money"><br><br>
+        <button class="btn btn-success" (click)="withdrawMoney()">Withdraw</button><br><br>
+        <button class="btn btn-danger" (click)="Back()">Back</button>
+    </div>
+</div>

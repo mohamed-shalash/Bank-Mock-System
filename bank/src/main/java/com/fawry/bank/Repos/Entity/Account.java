@@ -34,6 +34,10 @@ public class Account {
     @Column(name="phonenumper")
     String PhoneNumber ;
 
+    @NotNull(message = "password cannot be null")
+    @Column(name="password")
+    String Password ;
+
     @ManyToOne
     @JoinColumn(name = "User_id",referencedColumnName = "id")
     User user;

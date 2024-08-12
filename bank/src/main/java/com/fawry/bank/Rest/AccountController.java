@@ -1,15 +1,16 @@
 package com.fawry.bank.Rest;
 
 import com.fawry.bank.Models.AccountModule;
+import com.fawry.bank.Models.CardLogin;
 import com.fawry.bank.Service.AccountService;
 import com.fawry.bank.dto.TransactionDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("account")
 @RequiredArgsConstructor
@@ -26,6 +27,18 @@ public class AccountController {
     public AccountModule getAccountBycard(@PathVariable String card){
         return accountService.getAccountBycard(card);
     }
+    @CrossOrigin
+    @GetMapping("/{From}/{To}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AccountModule> getAccountByDeposit(@PathVariable String From,@PathVariable String To){
+        System.out.println(From+"   "+To);
+        return accountService.getAccountByDeposit(From,To);
+    }
+    @PostMapping("/atm")
+    @ResponseStatus(HttpStatus.OK)
+    public AccountModule AtmLogin(@RequestBody CardLogin card){
+        return accountService.getAccountByLogIn(card);
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -36,26 +49,13 @@ public class AccountController {
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void updateAccount(@Valid  @RequestBody  AccountModule account){
-        accountService.updateAccount(account);
+        try {
+            accountService.updateAccount(account);
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 
-    /*@PutMapping("/{CardNumber}/{amount}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void DrawFromAccount( @PathVariable String CardNumber, @PathVariable double amount){
-         accountService.DrawFromAccount(CardNumber,amount);
-    }
-
-    @PutMapping(value = "/{CardNumber}",params = {"amount"})
-    @ResponseStatus(HttpStatus.CREATED)
-    public void AddToAccount(@PathVariable String CardNumber,@RequestParam double amount){
-         accountService.AddToAccount(CardNumber,amount);
-    }
-
-    @PutMapping("/{FromCardNumber}/{ToCardNumber}/{amount}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void DrawFromAccountToAnother( @PathVariable String FromCardNumber, @PathVariable  String ToCardNumber, @PathVariable  double amount){
-         accountService.DrawFromAccountToAnother(FromCardNumber,ToCardNumber,amount);
-    }*/
 
     @PutMapping("/transaction")
     @ResponseStatus(HttpStatus.OK)

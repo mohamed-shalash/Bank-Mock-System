@@ -2,6 +2,7 @@ package com.fawry.bank.Service.Serviceimpl;
 
 import com.fawry.bank.Models.AccountModule;
 import com.fawry.bank.Models.AddressModule;
+import com.fawry.bank.Models.CardLogin;
 import com.fawry.bank.Models.UserModule;
 import com.fawry.bank.Repos.AccountRepo;
 import com.fawry.bank.Repos.Entity.Account;
@@ -42,7 +43,9 @@ public class AccountServiceImpl implements AccountService {
                         )
                         .Deposit(e.getDeposit())
                         .PhoneNumber(e.getPhoneNumber())
+                        .password(e.getPassword())
                         .user(UserModule.builder()
+                                .email(e.getUser().getEmail())
                                 .user_name(e.getUser().getUser_name())
                                 .password(e.getUser().getPassword())
                                 .role(e.getUser().getRole())
@@ -58,6 +61,7 @@ public class AccountServiceImpl implements AccountService {
         Account account=accountRepo.findByUserId(User_id);
         return AccountModule.builder()
                 .user(UserModule.builder()
+                        .email(account.getUser().getEmail())
                         .user_name(account.getUser().getUser_name())
                         .password(account.getUser().getPassword())
                         .role(account.getUser().getRole())
@@ -72,6 +76,7 @@ public class AccountServiceImpl implements AccountService {
                         .build())
                 .Deposit(account.getDeposit())
                 .PhoneNumber(account.getPhoneNumber())
+                .password(account.getPassword())
                 .build();
     }
 
@@ -80,6 +85,7 @@ public class AccountServiceImpl implements AccountService {
         Account account=accountRepo.findByCardNumber(CardNumber);
         return AccountModule.builder()
                 .user(UserModule.builder()
+                        .email(account.getUser().getEmail())
                         .user_name(account.getUser().getUser_name())
                         .password(account.getUser().getPassword())
                         .role(account.getUser().getRole())
@@ -94,8 +100,64 @@ public class AccountServiceImpl implements AccountService {
                         .build())
                 .Deposit(account.getDeposit())
                 .PhoneNumber(account.getPhoneNumber())
+                .password(account.getPassword())
                 .build();
     }
+
+    @Override
+    public List<AccountModule> getAccountByDeposit(String From, String To) {
+        List<AccountModule> accountModules =accountRepo.findByDepositBetween(From, To)
+                .stream()
+                .map(e->AccountModule.builder()
+                        .CardNumber(e.getCardNumber())
+                        .address(AddressModule.builder()
+                                .City(e.getAddress().getCity())
+                                .Country(e.getAddress().getCountry())
+                                .State(e.getAddress().getState())
+                                .HouseID(e.getAddress().getHouseID())
+                                .Streate(e.getAddress().getStreate())
+                                .build()
+                        )
+                        .Deposit(e.getDeposit())
+                        .PhoneNumber(e.getPhoneNumber())
+                        .password(e.getPassword())
+                        .user(UserModule.builder()
+                                .email(e.getUser().getEmail())
+                                .user_name(e.getUser().getUser_name())
+                                .password(e.getPassword())
+                                .role(e.getUser().getRole())
+                                .build())
+                        .build()
+                )
+                .toList();
+        return accountModules;
+    }
+
+    @Override
+    public AccountModule getAccountByLogIn(CardLogin card) {
+        //System.out.println(card+"");
+        Account account=accountRepo.findByCardNumberAndPassword(card.getCardNumber(), card.getPassword());
+        return AccountModule.builder()
+                .user(UserModule.builder()
+                        .user_name(account.getUser().getUser_name())
+                        .password(account.getUser().getPassword())
+                        .role(account.getUser().getRole())
+                        .email(account.getUser().getEmail())
+                        .build())
+                .CardNumber(account.getCardNumber())
+                .address(AddressModule.builder()
+                        .City(account.getAddress().getCity())
+                        .Country(account.getAddress().getCountry())
+                        .State(account.getAddress().getState())
+                        .HouseID(account.getAddress().getHouseID())
+                        .Streate(account.getAddress().getStreate())
+                        .build())
+                .Deposit(account.getDeposit())
+                .PhoneNumber(account.getPhoneNumber())
+                .password(account.getPassword())
+                .build();
+    }
+
 
     @Transactional
     @Override
@@ -105,6 +167,7 @@ public class AccountServiceImpl implements AccountService {
         account.setDeposit(accountModule.getDeposit());
         account.setPhoneNumber(accountModule.getPhoneNumber());
         account.setCardNumber(accountModule.getCardNumber());
+        account.setPassword(accountModule.getPassword());
 
         address.setCity(accountModule.getAddress().getCity());
         address.setCountry(accountModule.getAddress().getCountry());
@@ -133,15 +196,17 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void updateAccount(AccountModule accountModule) {
         Account account =accountRepo.findByCardNumber(accountModule.getCardNumber());
-       /* } catch (Exception e) {
-            return ;
-        }*/
 
-        Address address =new Address();
+
+       AddressModule address =AddressModule.builder()
+               .Streate(accountModule.getAddress().getStreate())
+               .State(accountModule.getAddress().getState())
+               .City(accountModule.getAddress().getCity())
+               .Country(accountModule.getAddress().getCountry())
+               .HouseID(accountModule.getAddress().getHouseID())
+               .build();
 
         User user =userRepo.findByUsernameaAndPassword(accountModule.getUser().getUser_name(),accountModule.getUser().getPassword());
-        if (user == null)
-            return ;
 
         String logevent="";
         if(accountModule.getDeposit() != account.getDeposit()) {
@@ -152,6 +217,11 @@ public class AccountServiceImpl implements AccountService {
         if(!accountModule.getPhoneNumber().equals(account.getPhoneNumber()) ) {
             logevent +=" PhoneNumber From "+accountModule.getPhoneNumber()+" To "+ account.getPhoneNumber();
             account.setPhoneNumber(accountModule.getPhoneNumber());
+        }
+
+        if(!accountModule.getPhoneNumber().equals(account.getPhoneNumber()) ) {
+            logevent +=" password From "+accountModule.getPassword()+" To "+ account.getPassword();
+            account.setPassword(accountModule.getPassword());
         }
 
 
@@ -180,18 +250,19 @@ public class AccountServiceImpl implements AccountService {
             address.setStreate(accountModule.getAddress().getStreate());
         }
 
-        account.setAddress(address);
+        System.out.println(address);
+        accountModule.setAddress(address);
 
 
-        account.setUser(user);
+         account.setUser(user);
         accountRepo.save(account);
         Logs log =new Logs();
         log.setDate(LocalDate.now() );
         log.setTime(LocalTime.now());
         log.setKind("Update");
-        //log.setLog(logevent);
         log.setLog(logevent);
         logRepo.save(log);
+
     }
 
     @Transactional
@@ -253,6 +324,8 @@ public class AccountServiceImpl implements AccountService {
         logRepo.save(log);
         return "Done";
     }
+
+
 
     @Transactional
     @Override

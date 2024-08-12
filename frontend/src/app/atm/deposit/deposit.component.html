@@ -1,0 +1,12 @@
+<div class="container">
+    <div class="header">
+        <h1>Deposit Money</h1>
+    </div>
+    
+    <div class="deposit-form">
+        <label for="depositAmount">Enter amount to deposit:</label>
+        <input type="number" class="form-control" id="depositAmount" [(ngModel)]="money"><br><br>
+        <button class="btn btn-success" (click)="depositMoney()" >Deposit</button><br><br>
+        <button class="btn btn-danger" (click)="Back()">Back</button>
+    </div>
+</div>

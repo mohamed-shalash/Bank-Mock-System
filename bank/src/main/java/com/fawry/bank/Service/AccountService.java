@@ -1,6 +1,8 @@
 package com.fawry.bank.Service;
 
 import com.fawry.bank.Models.AccountModule;
+import com.fawry.bank.Models.CardLogin;
+
 import java.util.List;
 
 public interface AccountService {
@@ -9,6 +11,7 @@ public interface AccountService {
 
     public AccountModule getAccountBycard(String CardNumber);
 
+    public List<AccountModule> getAccountByDeposit(String From,String To);
     public void addAccount(AccountModule account);
 
 
@@ -21,4 +24,6 @@ public interface AccountService {
     public String deleteAccount(String card);
 
     String AddToAccount(String cardNumber, double amount);
+
+    AccountModule getAccountByLogIn(CardLogin card);
 }

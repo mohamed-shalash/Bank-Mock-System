@@ -1,0 +1,34 @@
+bank-api
+	add account (card number, name, password)
+	
+	create transaction (deposit/withdraw amount with notes)
+		log transaction
+	
+	account login
+	
+	view account balance, transaction details
+
+
+____________________________________________________________
+
+login data
+Id UserName Password  role
+
+Account
+Id  CardNumber  Deposit  PhoneNumber Address 
+ 
+
+Logs
+Id Date Time Kind Log
+
+
+
+
+
+
+
+
+
+
+
+

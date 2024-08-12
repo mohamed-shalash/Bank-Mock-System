@@ -1,0 +1,22 @@
+<table style="width:90%;margin-left: 5%;margin-top: 3%;">
+    <tr >
+        <td style="width:80%;"><p class="text" >This is some text</p><td>
+        <td><button class="btn btn-success" style="width:90%;" (click)="Add()">Add</button><td>
+        <td><button class="btn btn-danger" style="width:90%;"  (click)="Back()">back</button><td>
+    </tr>
+    </table>
+
+<hr style="width:90%;margin-left: 5%;">
+
+
+<table style="width:90%;margin-left: 5%;">
+    @for (item of person; track $index) {
+<tr >
+    <td style="width:80%;"><p class="text" >{{item.user_name}}</p><td>
+        <td style="width:80%;"><p class="text" >{{item.email}}</p><td></td>
+        <td style="width:80%;"><p class="text" >{{item.role}}</p><td></td>
+    <td><button class="btn btn-warning" style="width:90%;" (click)="Update(item.email)">Update</button><td>
+    <td><button class="btn btn-danger"  style="width:90%;" (click)="Delete(item.email)">Delete</button><td>
+</tr>
+    }
+</table>

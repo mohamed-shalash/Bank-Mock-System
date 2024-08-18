@@ -31,6 +31,12 @@ public class LogController {
         return logService.getLog(date);
     }
 
+    @GetMapping(params = {"email"})
+    @ResponseStatus(HttpStatus.OK)
+    public  List<LogModule> getLogByEmail( @RequestParam  String email){
+        return logService.getLogByEmail(email);
+    }
+
     @GetMapping(params = {"date","timeFrom","timeTo"})
     @ResponseStatus(HttpStatus.OK)
     public  List<LogModule> getLog(@RequestParam LocalDate date, @RequestParam LocalTime timeFrom,@RequestParam LocalTime timeTo){

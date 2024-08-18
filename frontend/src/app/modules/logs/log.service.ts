@@ -30,4 +30,11 @@ export class LogService {
         'Content-Type': 'application/json'
       })});
   }
+
+  getlogByEmail(email: string) {
+    return this.http.get<Log[]>("http://localhost:8080/log?email="+email,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })});
+  }
 }

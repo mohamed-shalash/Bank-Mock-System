@@ -18,4 +18,6 @@ public class LogModule {
     private LocalTime Time;
     private String Kind;
     private String Log;
+
+    private String Email;
 }

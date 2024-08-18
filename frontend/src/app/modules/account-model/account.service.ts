@@ -1,7 +1,8 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable } from 'rxjs';
+import { catchError, from, map, Observable } from 'rxjs';
 import { Account } from './account';
+import { Person } from '../person-model/person';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AccountService {
       cardNumber: cardNumber,
       password: password
     };
-    return this.http.post<Account>("http://localhost:8080/account/atm", body, {
+    return this.http.post<Account>(this.url, body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
@@ -31,6 +32,13 @@ export class AccountService {
       method: "Draw"
     };
     return this.http.put("http://localhost:8080/account/transaction", body, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
+  }
+  TransformAmount(fromcard:string,tocard:string,money:number){
+    return this.http.put(`http://localhost:8080/account/${fromcard}/${tocard}/${money}`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
@@ -65,16 +73,31 @@ export class AccountService {
     });
   }
 
-  GetAccountBycard(Card: string) {
+  GetAccountBycard(Card: string) : Observable<Account[]> {
+    let accounts: Account[] = [];
     return this.http.get<Account>("http://localhost:8080/account/" + Card, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }).pipe(
+      map(account => {
+        accounts.push(account);
+        return accounts;
+      })
+    );;
+  }
+
+  GetAccountForUser(email :string) :Observable<Account[]>{
+    return this.http.get<any>("http://localhost:8080/account/?email="+email , {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     });
   }
 
+
   GetAccountByRange(depositFrom: string,depositTo: string) {
-    return this.http.get<any>("http://localhost:8080/account/0/70000" , {
+    return this.http.get<any>("http://localhost:8080/account/"+depositFrom+"/"+depositTo , {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })

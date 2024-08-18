@@ -11,6 +11,7 @@ import { IntermediateComponent } from './intermediate/intermediate.component';
 import { PersonComponent } from './person/person.component';
 import { LogsComponent } from './logs/logs.component';
 import { AddAccountComponent } from './account/add-account/add-account.component';
+import { TransformationComponent } from './atm/transformation/transformation.component';
 
 export const routes: Routes = [
     {path:"atm-login", component:ATMComponent},
@@ -24,5 +25,6 @@ export const routes: Routes = [
     {path:"person", component:PersonComponent},
     {path:"log", component:LogsComponent},
     {path:"add-acount", component:AddAccountComponent},
+    {path:"transform", component:TransformationComponent},
     {path:"" ,component:LoginComponent}
 ];

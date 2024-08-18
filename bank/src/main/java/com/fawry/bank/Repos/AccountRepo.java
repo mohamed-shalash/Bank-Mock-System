@@ -23,6 +23,9 @@ public interface AccountRepo extends JpaRepository<Account,Long> {
     @Query(value = "SELECT * FROM account WHERE deposit  between :From and :To",nativeQuery = true)
     List<Account> findByDepositBetween(@Param("From") String From, @Param("To") String To);
 
+    @Query(value = "SELECT * FROM account where user_id = (Select id from user where user.email like :email)  ;",nativeQuery = true)
+    List<Account> findByUserEmail(@Param("email") String email);
+
     @Query(value = "delete FROM account WHERE card_number = :card",nativeQuery = true)
     void deleteByCardNumber(@Param("card") String card);
 }

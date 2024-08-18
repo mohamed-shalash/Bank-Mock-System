@@ -10,7 +10,7 @@
 
 
 <table style="width:90%;margin-left: 5%;">
-    @for (item of person; track $index) {
+    @for (item of persons$|async; track $index) {
 <tr >
     <td style="width:80%;"><p class="text" >{{item.user_name}}</p><td>
         <td style="width:80%;"><p class="text" >{{item.email}}</p><td></td>

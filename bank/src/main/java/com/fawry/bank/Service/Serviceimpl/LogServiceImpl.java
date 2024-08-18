@@ -23,6 +23,7 @@ public class LogServiceImpl implements LogService {
                         .Time(e.getTime())
                         .Kind(e.getKind())
                         .Log(e.getLog())
+                        .Email((e.getEmail()))
                         .build() ).toList();
         return logs;
     }
@@ -35,6 +36,7 @@ public class LogServiceImpl implements LogService {
                         .Time(e.getTime())
                         .Kind(e.getKind())
                         .Log(e.getLog())
+                        .Email((e.getEmail()))
                         .build() ).toList();
         return logs;
     }
@@ -48,6 +50,7 @@ public class LogServiceImpl implements LogService {
                         .Time(e.getTime())
                         .Kind(e.getKind())
                         .Log(e.getLog())
+                        .Email((e.getEmail()))
                         .build() ).toList();
         return logs;
     }
@@ -60,6 +63,20 @@ public class LogServiceImpl implements LogService {
                         .Time(e.getTime())
                         .Kind(e.getKind())
                         .Log(e.getLog())
+                        .Email(e.getEmail())
+                        .build() ).toList();
+        return logs;
+    }
+
+    @Override
+    public List<LogModule> getLogByEmail(String Email) {
+        List<LogModule> logs = logRepo.findByEmail(Email).stream()
+                .map(e->LogModule.builder()
+                        .Date(e.getDate())
+                        .Time(e.getTime())
+                        .Kind(e.getKind())
+                        .Log(e.getLog())
+                        .Email(e.getEmail())
                         .build() ).toList();
         return logs;
     }
@@ -72,7 +89,8 @@ public class LogServiceImpl implements LogService {
         log.setTime(logModule.getTime());
         log.setKind(logModule.getKind());
         log.setLog(logModule.getLog());
-        //add log
+        log.setEmail(logModule.getEmail());
+
         logRepo.save(log);
     }
 }

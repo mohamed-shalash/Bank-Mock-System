@@ -15,16 +15,22 @@ export class IntermediateComponent {
   constructor(private router: Router){
     const data =localStorage.getItem('data');
     this.User = data? JSON.parse(data):null;
+    this.isAdmin = this.User.role == 'Admin';  
 
   }
 
-  ngOnInit() {
-    this.isAdmin = this.User.role == 'Admin';    
+  back(){
+    localStorage.setItem('data',"");
+    this.router.navigate([""]);
   }
+
   isAdmin?:boolean;
   User:Person;
   navigateTo(page:string){
     if(page =="personManeger"){
+      if(this.isAdmin)
+      localStorage.setItem('RoleSearch', "Admin");
+      else
       localStorage.setItem('RoleSearch', "Maneger");
       this.router.navigate(["/person"]);
       

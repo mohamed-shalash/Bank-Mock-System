@@ -21,11 +21,9 @@ export class LoginComponent {
       this.personservice.getPerson(this.Email, this.Password).subscribe({
         next: (v) => {
           this.user =v;
-          //alert(v.deposit);
         },
         error: (e) => {console.error(e)},
         complete: () => {
-          //alert(this.user?.user_name);
                 
                 localStorage.setItem('data', JSON.stringify(this.user));
                 this.router.navigate(['/process']);
@@ -35,15 +33,6 @@ export class LoginComponent {
       
       else
       alert("Credintial  Error   ....   !")
-
-     /*1.this.accountservice.setData(this.account);
-      this.router.navigate(['/atm']);*/
-
-      /*localStorage.setItem('User', JSON.stringify(this.person1));
-      this.router.navigate(['/process']);*/
-
-     //3. this.router.navigate(['/atm'], { queryParams: { data: JSON.stringify(this.account) } });
-
 
   }
 

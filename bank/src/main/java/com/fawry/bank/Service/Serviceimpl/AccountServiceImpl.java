@@ -134,6 +134,35 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public List<AccountModule> getAccountByEmail(String Email) {
+        List<AccountModule> accountModules =accountRepo.findByUserEmail(Email)
+                .stream()
+                .map(e->AccountModule.builder()
+                        .CardNumber(e.getCardNumber())
+                        .address(AddressModule.builder()
+                                .City(e.getAddress().getCity())
+                                .Country(e.getAddress().getCountry())
+                                .State(e.getAddress().getState())
+                                .HouseID(e.getAddress().getHouseID())
+                                .Streate(e.getAddress().getStreate())
+                                .build()
+                        )
+                        .Deposit(e.getDeposit())
+                        .PhoneNumber(e.getPhoneNumber())
+                        .password(e.getPassword())
+                        .user(UserModule.builder()
+                                .email(e.getUser().getEmail())
+                                .user_name(e.getUser().getUser_name())
+                                .password(e.getPassword())
+                                .role(e.getUser().getRole())
+                                .build())
+                        .build()
+                )
+                .toList();
+        return accountModules;
+    }
+
+    @Override
     public AccountModule getAccountByLogIn(CardLogin card) {
         //System.out.println(card+"");
         Account account=accountRepo.findByCardNumberAndPassword(card.getCardNumber(), card.getPassword());
@@ -177,9 +206,6 @@ public class AccountServiceImpl implements AccountService {
         account.setAddress(address);
 
         User user =userRepo.findByUsernameaAndPassword(accountModule.getUser().getUser_name(),accountModule.getUser().getPassword());
-       /* if (user == null)
-            return ;*/
-
         account.setUser(user);
 
         accountRepo.save(account);
@@ -188,6 +214,7 @@ public class AccountServiceImpl implements AccountService {
         log.setTime(LocalTime.now());
         log.setKind("Add");
         log.setLog("Add new Card with number "+accountModule.getCardNumber()+" and deposit "+accountModule.getDeposit());
+        log.setEmail(account.getUser().getEmail());
         logRepo.save(log);
     }
 
@@ -261,6 +288,7 @@ public class AccountServiceImpl implements AccountService {
         log.setTime(LocalTime.now());
         log.setKind("Update");
         log.setLog(logevent);
+        log.setEmail(account.getUser().getEmail());
         logRepo.save(log);
 
     }
@@ -269,7 +297,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public String DrawFromAccount(String CardNumber,double amount) {//deposit with draw
         Account  account= accountRepo.findByCardNumber(CardNumber);
-
         if(amount >account.getDeposit()) throw new RuntimeException("Cant Draw amount is larger than your palance");
 
         account.setDeposit(account.getDeposit()-amount);
@@ -280,6 +307,7 @@ public class AccountServiceImpl implements AccountService {
         log.setTime(LocalTime.now());
         log.setKind("Draw");
         log.setLog("Draw From "+CardNumber+" Amount "+amount);
+        log.setEmail(account.getUser().getEmail());
         logRepo.save(log);
         return "Done";
     }
@@ -304,7 +332,16 @@ public class AccountServiceImpl implements AccountService {
         log.setTime(LocalTime.now());
         log.setKind("Draw");
         log.setLog("Draw From "+FromCardNumber+" To "+ToCardNumber+" Amount "+amount);
+        log.setEmail(from.getUser().getEmail());
         logRepo.save(log);
+
+        Logs log2 =new Logs();
+        log2.setDate(LocalDate.now() );
+        log2.setTime(LocalTime.now());
+        log2.setKind("Draw");
+        log2.setLog("Draw From "+FromCardNumber+" To "+ToCardNumber+" Amount "+amount);
+        log2.setEmail(to.getUser().getEmail());
+        logRepo.save(log2);
         return "Done";
     }
 

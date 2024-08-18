@@ -24,19 +24,11 @@ export class AddUserComponent {
     const data =localStorage.getItem('user');
     this.user = data? JSON.parse(data):{role:'User',email:"",password:"",user_name:""};
 
-
-   
   }
   
   isAdd?:boolean =false ;
   person :Person;
   user :Person;
-
-
-  ngOnInit(){
-    
-  }
-
 
 
   Back(){

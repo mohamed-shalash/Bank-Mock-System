@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { Person } from '../modules/person-model/person';
 import { Router } from '@angular/router';
-import { NgFor } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { PersonService } from '../modules/person-model/person.service';
+import {  merge, Observable, scan } from 'rxjs';
 
 @Component({
   selector: 'app-person',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor,CommonModule],
   templateUrl: './person.component.html',
   styleUrl: './person.component.css'
 })
@@ -45,30 +46,22 @@ export class PersonComponent {
     });
   }
 
-  person?: Array<Person>;
-
+  persons$?:Observable<Person[]>;
   constructor(private router: Router, private userService: PersonService) {
 
 
     const data = localStorage.getItem('RoleSearch');
-    if ("Maneger" === data) {
-      userService.getPersonByRole("Maneger").subscribe({
-        next: (v) => {
-          this.person = v;
-        },
-        error: (e) => { console.error(e) },
-        complete: () => {
-        }
-      });
+    
+    if ("Admin" === data) {
+      this.persons$ =merge( this.userService.getPersonByRole('Admin'),this.userService.getPersonByRole('Maneger')).pipe(
+        scan((acc: Person[], val: Person[]) => [...acc, ...val], []) 
+      );
+      this.persons$.subscribe(val => console.log(val));
+    /*}
+    else if ("Maneger" === data) {
+      this.persons$=userService.getPersonByRole("Maneger");*/
     } else {
-      userService.getPersonByRole("User").subscribe({
-        next: (v) => {
-          this.person = v;
-        },
-        error: (e) => { console.error(e) },
-        complete: () => {
-        }
-      });
+      this.persons$=userService.getPersonByRole("User");;
     }
 
   }

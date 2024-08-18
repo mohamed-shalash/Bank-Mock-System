@@ -12,6 +12,8 @@ public interface AccountService {
     public AccountModule getAccountBycard(String CardNumber);
 
     public List<AccountModule> getAccountByDeposit(String From,String To);
+
+    public List<AccountModule> getAccountByEmail(String Email);
     public void addAccount(AccountModule account);
 
 

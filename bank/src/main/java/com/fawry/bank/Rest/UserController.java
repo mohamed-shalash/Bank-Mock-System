@@ -46,18 +46,14 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    String Add(@Valid @RequestBody UserModule userModule){
-        //System.out.println(userModule);
+    void Add(@Valid @RequestBody UserModule userModule){
         userService.addUser(userModule);
-        return "Added";
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
     void Update(@Valid @RequestBody UserModule userModule){
-        //System.out.println(userModule);
         userService.updateUser(userModule);
-        //return "Updated";
     }
 
     @DeleteMapping(params = {"email"})

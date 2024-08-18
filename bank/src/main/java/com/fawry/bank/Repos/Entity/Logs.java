@@ -38,5 +38,7 @@ public class Logs {
     @Column(name="log")
     String Log;
 
-
+    @NotNull(message = "email cannot be null")
+    @Column(name="email")
+    String Email;
 }

@@ -84,6 +84,7 @@ public class UserServiceImpl implements UserService {//implements UserDetailsSer
                 .Time(LocalTime.now())
                 .Kind("User_Add")
                 .Log("Adding user " + user)
+                .Email(user.getEmail())
                 .build();
         logRepo.save(log);
     }
@@ -98,6 +99,7 @@ public class UserServiceImpl implements UserService {//implements UserDetailsSer
                 .Time(LocalTime.now())
                 .Kind("User_Update")
                 .Log("Update user from " + user + " To " + module)
+                .Email(user.getEmail())
                 .build();
         logRepo.save(log);
 
@@ -120,6 +122,7 @@ public class UserServiceImpl implements UserService {//implements UserDetailsSer
                 .Time(LocalTime.now())
                 .Kind("User_Delete")
                 .Log("delete user " + user)
+                .Email(user.getEmail())
                 .build();
         logRepo.save(log);
     }

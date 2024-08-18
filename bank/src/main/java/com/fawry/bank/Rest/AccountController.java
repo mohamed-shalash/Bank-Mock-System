@@ -31,9 +31,17 @@ public class AccountController {
     @GetMapping("/{From}/{To}")
     @ResponseStatus(HttpStatus.OK)
     public List<AccountModule> getAccountByDeposit(@PathVariable String From,@PathVariable String To){
-        System.out.println(From+"   "+To);
         return accountService.getAccountByDeposit(From,To);
     }
+
+    @GetMapping(path = "/",params = {"email"})
+    @ResponseStatus(HttpStatus.OK)
+    public List<AccountModule> getAccountByUserEmail(@RequestParam("email") String email){
+       // System.out.println(email);
+        return accountService.getAccountByEmail(email);
+    }
+
+
     @PostMapping("/atm")
     @ResponseStatus(HttpStatus.OK)
     public AccountModule AtmLogin(@RequestBody CardLogin card){
@@ -45,6 +53,7 @@ public class AccountController {
     public void addAccount(@Valid @RequestBody AccountModule account){
         accountService.addAccount(account);
     }
+
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)

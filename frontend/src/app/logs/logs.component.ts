@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { LogService } from '../modules/logs/log.service';
 import { Log } from '../modules/logs/log';
-import { NgFor } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
+import { Observable } from 'rxjs';
+import { Person } from '../modules/person-model/person';
 
 @Component({
   selector: 'app-logs',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor,CommonModule],
   templateUrl: './logs.component.html',
   styleUrl: './logs.component.css'
 })
@@ -41,6 +43,7 @@ export class LogsComponent {
     }
 
   }
+
   search() {
     const element = document.getElementById("mySelect") as HTMLSelectElement;
     const text1 = document.getElementById("searchInput") as HTMLInputElement;
@@ -50,21 +53,12 @@ export class LogsComponent {
     if (element.value === "Time") {
       if(time1.value >= time2.value) alert("Time 1 cant be bigger than time 1 or equal");
       else{
-        this.logservice.getlogBydateAndTime(date.value,time1.value,time2.value).subscribe({
-          next:(v)=>{this.logs =v},
-          error:(e)=>{}
-        });
+        this.logs=this.logservice.getlogBydateAndTime(date.value,time1.value,time2.value);
       }
     } else if(element.value === "date") {
-      this.logservice.getlogBydate(date.value).subscribe({
-        next:(v)=>{this.logs =v},
-        error:(e)=>{}
-      });
+      this.logs=this.logservice.getlogBydate(date.value);
     } else{
-      this.logservice.getlogBykind(text1.value).subscribe({
-        next:(v)=>{this.logs =v},
-        error:(e)=>{}
-      });
+      this.logs=this.logservice.getlogBykind(text1.value);
     }
   }
 
@@ -73,8 +67,12 @@ export class LogsComponent {
   }
 time?:string;
 date?:string;
-logs?: Array<Log>;
+logs?: Observable<Log[]>;
+user?: Person;
 constructor(private router: Router, private logservice:LogService){
-
+  const data = localStorage.getItem('data');
+    this.user = data ? JSON.parse(data) : null;
+    if (this.user)
+    this.logs = this.logservice.getlogByEmail(this.user.email);
 }
 }

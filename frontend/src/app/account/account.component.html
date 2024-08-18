@@ -1,9 +1,9 @@
 <div class="container">
     <div class="header">
-        <h1>Item List</h1>
+        <h1>Account List</h1>
     </div>
 
-    <div class="search-container">
+    <div *ngIf="user?.role != 'User'" class="search-container" >
         <input type="number" id="card" placeholder="Search by card number..." class="hidden2 form-control">
         <input type="number" id="deposit" placeholder="Deposit From ..." class="hidden form-control">
         <input type="number" id="deposit2" placeholder="Deposit To ..." class="hidden form-control">
@@ -15,13 +15,16 @@
         </select>
         <button (click)="search()" class="btn btn-success">Search</button>
         <button (click)="Back()" class="btn btn-danger">Back</button>
-        <button (click)="Add()" *ngIf="user.role === 'Admin' || user.role === 'Maneger'" class="btn btn-success">Add</button>
+        <button (click)="Add()" *ngIf="user?.role === 'Admin' || user?.role === 'Maneger'" class="btn btn-success">Add</button>
     </div>
 
 <hr>
-  <table style="width:90%;margin-left: 5%;">
-        @for (item of accounts; track $index) {
-        <tr>
+
+
+    
+    <table id="table" style="width:90%;margin-left: 5%;">
+        <div *ngFor="let item of observer$ | async">
+        <tr  >
             <td style="width:10%;">
                 <p class="text">{{item.cardNumber}}</p>
             <td>
@@ -35,7 +38,8 @@
                 <td><button class="btn btn-danger"  style="width:90%;" (click)="Delete(item.cardNumber)">Delete</button><td>
                 
         </tr>
-    }
+    </div>
+    
     </table>
 
 

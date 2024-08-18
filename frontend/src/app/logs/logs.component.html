@@ -3,7 +3,7 @@
         <h1>Item List</h1>
     </div>
 
-    <div class="search-container">
+    <div  *ngIf="user?.role != 'User'" class="search-container">
         <input type="text" id="searchInput" placeholder="Search by name..." class="hidden3 form-control">
         <input type="date" id="date"  class="hidden2 form-control">
         <input type="time" id="time" class="hidden form-control">
@@ -21,7 +21,7 @@
 
     <hr>
     <table style="width:90%;margin-left: 5%;">
-        @for (item of logs; track $index) {
+        @for (item of logs | async; track $index) {
         <tr>
             <td style="width:10%;">
                 <p class="text">{{item.date}}</p>
@@ -36,6 +36,10 @@
                 <p class="text">{{item.log}} </p>
 
             <td>
+                <td style="width:70%;">
+                    <p class="text">{{item.email}} </p>
+    
+                <td>
         </tr>
         }
 

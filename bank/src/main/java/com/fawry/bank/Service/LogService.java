@@ -13,5 +13,7 @@ public interface LogService {
 
     public List<LogModule> getLog(String kind);
 
+    public List<LogModule> getLogByEmail(String kind);
+
     public void addLog(LogModule logModule);
 }

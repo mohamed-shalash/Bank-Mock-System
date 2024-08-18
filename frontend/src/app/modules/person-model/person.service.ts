@@ -11,23 +11,23 @@ export class PersonService {
   private user?: Person;
 
   constructor(private http: HttpClient) {}
-
+  Url ="http://localhost:8080"
   getPerson(email: string, password: string) {
-    return this.http.get<Person>("http://localhost:8080?email="+email+"&pass="+password,{
+    return this.http.get<Person>(this.Url+"?email="+email+"&pass="+password,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })});
   }
 
   getPersonByEmail(email: string) {
-    return this.http.get<Person>("http://localhost:8080?email="+email,{
+    return this.http.get<Person>(this.Url+"?email="+email,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })});
   }
 
   getPersonByRole(role: string) {
-    return this.http.get<Person[]>("http://localhost:8080?role="+role,{
+    return this.http.get<Person[]>(this.Url+"?role="+role,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })});
@@ -35,12 +35,12 @@ export class PersonService {
 
   addPerson(user: Person) {
     const body = {
-      user_name: user.user_name,
-      password: user.password,
-      email: user.email,
-      role: user.role,
+      "user_name": user.user_name,
+      "password": user.password,
+      "email": user.email,
+      "role": user.role,
     };
-      return this.http.post<string>("http://localhost:8080/", body,{
+      return this.http.post<any>(this.Url+"/", body,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })});
@@ -50,19 +50,19 @@ export class PersonService {
 
     Update(user: Person) {
       const body = {
-        user_name: user.user_name,
-        password: user.password,
-        email: user.email,
-        role: user.role,
+        "user_name": user.user_name,
+        "password": user.password,
+        "email": user.email,
+        "role": user.role,
       };
-        return this.http.put<any>("http://localhost:8080/", body,{
+        return this.http.put<any>(this.Url, body,{
         headers: new HttpHeaders({
           'Content-Type': 'application/json'
         })});
     }
 
   deletePerson(email: string): Observable<any> {
-    const url = `http://localhost:8080?email=${email}`;
+    const url = this.Url+`?email=${email}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });

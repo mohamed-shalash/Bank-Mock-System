@@ -23,4 +23,7 @@ public interface LogRepo extends JpaRepository<Logs,Long> {
 
     @Query(value = "SELECT * FROM Logs WHERE kind = :kind", nativeQuery = true)
     List<Logs> findByKind(@Param("kind") String kind);
+
+    @Query(value = "select * from logs where email = :email", nativeQuery = true)
+    List<Logs> findByEmail(@Param("email") String email);
 }

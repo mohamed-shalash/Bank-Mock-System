@@ -1,3 +1,14 @@
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Optional: Adds some space above the buttons */
+  }
+  
+  .button-container .btn {
+    margin: 0 10px; /* Adds space between the buttons */
+  }
+  
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;

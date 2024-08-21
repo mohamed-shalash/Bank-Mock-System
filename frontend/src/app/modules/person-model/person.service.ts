@@ -26,8 +26,8 @@ export class PersonService {
       })});
   }
 
-  getPersonByRole(role: string) {
-    return this.http.get<Person[]>(this.Url+"?role="+role,{
+  getPersonByRole(role: string,page:number,size:number) {
+    return this.http.get<Person[]>(this.Url+"?role="+role+`&page=${page}&size=${size}`,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })});

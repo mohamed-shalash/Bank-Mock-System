@@ -9,7 +9,7 @@ import { Person } from '../person-model/person';
 })
 export class AccountService {
 
-  private url = "http://localhost:8080/account/atm";
+  private url = "http://localhost:8080/accounts";
 
   constructor(private http: HttpClient) { }
 
@@ -18,7 +18,7 @@ export class AccountService {
       cardNumber: cardNumber,
       password: password
     };
-    return this.http.post<Account>(this.url, body, {
+    return this.http.post<Account>(this.url+"/atm", body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
@@ -31,14 +31,21 @@ export class AccountService {
       amount: amount,
       method: "Draw"
     };
-    return this.http.put("http://localhost:8080/account/transaction", body, {
+    return this.http.put(this.url+"/transactions", body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     });
   }
+
+
   TransformAmount(fromcard:string,tocard:string,money:number){
-    return this.http.put(`http://localhost:8080/account/${fromcard}/${tocard}/${money}`, {
+    const body = {
+      "from": fromcard,
+      "to": tocard,
+      "amount": money+0.0
+    };
+    return this.http.put(`${this.url}/transfer`,body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
@@ -51,7 +58,7 @@ export class AccountService {
       amount: amount,
       method: "Add"
     };
-    return this.http.put("http://localhost:8080/account/transaction", body, {
+    return this.http.put(this.url+"/transactions", body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
@@ -60,22 +67,11 @@ export class AccountService {
   }
 
 
-  GetAccounts(cardNumber: String, amount: number) {
-    const body = {
-      cardNumber: cardNumber,
-      amount: amount,
-      method: "Add"
-    };
-    return this.http.put("http://localhost:8080/account/transaction", body, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    });
-  }
+
 
   GetAccountBycard(Card: string) : Observable<Account[]> {
     let accounts: Account[] = [];
-    return this.http.get<Account>("http://localhost:8080/account/" + Card, {
+    return this.http.get<Account>(this.url+"/" + Card, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
@@ -88,7 +84,7 @@ export class AccountService {
   }
 
   GetAccountForUser(email :string) :Observable<Account[]>{
-    return this.http.get<any>("http://localhost:8080/account/?email="+email , {
+    return this.http.get<any>(this.url+"/?email="+email , {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
@@ -96,8 +92,12 @@ export class AccountService {
   }
 
 
-  GetAccountByRange(depositFrom: string,depositTo: string) {
-    return this.http.get<any>("http://localhost:8080/account/"+depositFrom+"/"+depositTo , {
+  GetAccountByRange(depositFrom: number,depositTo: number,page:number,size:number) {
+    const body = {
+      "from": depositFrom+0.00001,
+      "to": depositTo+0.0
+    };
+    return this.http.post<any>(this.url+"/" +`?page=${page}&size=${size}`,body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
@@ -105,7 +105,7 @@ export class AccountService {
   }
 
   DeleteAccountBycard(card: string): Observable<any> {
-    const url = `http://localhost:8080/account/${card}`;
+    const url = `${this.url}/${card}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -115,39 +115,18 @@ export class AccountService {
 
 
   AddAccount(card: any): Observable<any> {
-    const url = `http://localhost:8080/account`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
   
-    return this.http.post(url,card, { headers });
+    return this.http.post(this.url,card, { headers });
   }
 
   UpdateAccount(card: any): Observable<any> {
-    const url = `http://localhost:8080/account`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
   
-    return this.http.put(url,card, { headers });
+    return this.http.put(this.url,card, { headers });
   }
 }
-
-/*= {
-    person: {
-      user_name: 'mohamed',
-      password: '123',
-      role: 'Admin',
-      email: 'm.shalash0@gmail.com'
-    },
-    address: {
-      state: "behira",
-      country: "EG",
-      city: "k.h",
-      houseID: "777",
-      streate: "h8"
-    },
-    deposit: 2000.0,
-    cardNumber: "123",
-    phoneNumber: "01095623040",
-  };*/

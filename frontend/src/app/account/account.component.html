@@ -39,7 +39,12 @@
                 
         </tr>
     </div>
-    
+    @if (show) {
+        <div class="button-container">
+            <button (click)="brevious()" class="btn btn-success">Back</button>
+            <button (click)="next()" class="btn btn-danger">Next</button>
+          </div>
+    }
     </table>
 
 

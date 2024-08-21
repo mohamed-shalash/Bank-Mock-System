@@ -11,7 +11,7 @@
 
         <select id="mySelect" (change)="logSelectedItem()" class="form-control" style="height: 2%;">
             <option>none</option>
-            <option value="role">Log Role</option>
+            <option value="role">Log Kind</option>
             <option value="date">Date</option>
             <option value="Time">Date Time</option>
         </select>
@@ -41,8 +41,14 @@
     
                 <td>
         </tr>
+        
         }
-
+        @if (show) {
+            <div class="button-container">
+                <button (click)="brevious()" class="btn btn-success">Back</button>
+                <button (click)="next()" class="btn btn-danger">Next</button>
+              </div>
+        }
     </table>
 
 

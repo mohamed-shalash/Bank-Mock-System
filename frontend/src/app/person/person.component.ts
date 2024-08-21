@@ -46,23 +46,66 @@ export class PersonComponent {
     });
   }
 
+  page =0;
+  size=2;
   persons$?:Observable<Person[]>;
   constructor(private router: Router, private userService: PersonService) {
-
 
     const data = localStorage.getItem('RoleSearch');
     
     if ("Admin" === data) {
-      this.persons$ =merge( this.userService.getPersonByRole('Admin'),this.userService.getPersonByRole('Maneger')).pipe(
+      this.persons$ =merge( this.userService.getPersonByRole('Admin',this.page,this.size/2),this.userService.getPersonByRole('Maneger',this.page,this.size/2)).pipe(
         scan((acc: Person[], val: Person[]) => [...acc, ...val], []) 
       );
       this.persons$.subscribe(val => console.log(val));
-    /*}
+    }
     else if ("Maneger" === data) {
-      this.persons$=userService.getPersonByRole("Maneger");*/
+      this.persons$=userService.getPersonByRole("Maneger",this.page,this.size);
     } else {
-      this.persons$=userService.getPersonByRole("User");;
+      this.persons$=userService.getPersonByRole("User",this.page,this.size);;
     }
 
   }
+
+  next(){
+    this.page+=1;
+    const data = localStorage.getItem('RoleSearch');
+    if ("Admin" === data) {
+      this.persons$ =merge( this.userService.getPersonByRole('Admin',this.page,this.size/2),this.userService.getPersonByRole('Maneger',this.page,this.size/2)).pipe(
+        scan((acc: Person[], val: Person[]) => [...acc, ...val], []) 
+      );
+      this.persons$.subscribe(val => console.log(val));
+    }
+    else if ("Maneger" === data) {
+      this.persons$=this.userService.getPersonByRole("Maneger",this.page,this.size);
+    } else {
+      this.persons$=this.userService.getPersonByRole("User",this.page,this.size);;
+    }
+    if(this.persons$)
+      this.persons$.subscribe((data: any[]) => {
+        if (data.length === 0) {
+          this.page = -1;
+          this.next();
+        }
+      });
+  }
+
+  brevious(){
+    this.page-=1;
+    if(this.page<0)this.page=0;
+    const data = localStorage.getItem('RoleSearch');
+    if ("Admin" === data) {
+      this.persons$ =merge( this.userService.getPersonByRole('Admin',this.page,this.size/2),this.userService.getPersonByRole('Maneger',this.page,this.size/2)).pipe(
+        scan((acc: Person[], val: Person[]) => [...acc, ...val], []) 
+      );
+      this.persons$.subscribe(val => console.log(val));
+    }
+    else if ("Maneger" === data) {
+      this.persons$=this.userService.getPersonByRole("Maneger",this.page,this.size);
+    } else {
+      this.persons$=this.userService.getPersonByRole("User",this.page,this.size);;
+    }
+  }
+
+
 }

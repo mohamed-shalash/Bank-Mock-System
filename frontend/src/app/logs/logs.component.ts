@@ -43,8 +43,13 @@ export class LogsComponent {
     }
 
   }
-
+  show=false;
+  page=0;
+  size=2;
   search() {
+    this.show=true;
+    this.page=0;
+    this.size=2;
     const element = document.getElementById("mySelect") as HTMLSelectElement;
     const text1 = document.getElementById("searchInput") as HTMLInputElement;
     const time1 = document.getElementById("time") as HTMLInputElement;
@@ -53,15 +58,59 @@ export class LogsComponent {
     if (element.value === "Time") {
       if(time1.value >= time2.value) alert("Time 1 cant be bigger than time 1 or equal");
       else{
-        this.logs=this.logservice.getlogBydateAndTime(date.value,time1.value,time2.value);
+        this.logs=this.logservice.getlogBydateAndTime(date.value,time1.value,time2.value,this.page,this.size);
       }
     } else if(element.value === "date") {
-      this.logs=this.logservice.getlogBydate(date.value);
+      this.logs=this.logservice.getlogBydate(date.value,this.page,this.size);
     } else{
-      this.logs=this.logservice.getlogBykind(text1.value);
+      this.logs=this.logservice.getlogBykind(text1.value,this.page,this.size);
     }
   }
+next(){
+  this.page+=1;
+  const element = document.getElementById("mySelect") as HTMLSelectElement;
+    const text1 = document.getElementById("searchInput") as HTMLInputElement;
+    const time1 = document.getElementById("time") as HTMLInputElement;
+    const time2 = document.getElementById("time2") as HTMLInputElement;
+    const date = document.getElementById("date") as HTMLInputElement;
+  if (element.value === "Time") {
+    if(time1.value >= time2.value) alert("Time 1 cant be bigger than time 1 or equal");
+    else{
+      this.logs=this.logservice.getlogBydateAndTime(date.value,time1.value,time2.value,this.page,this.size);
+    }
+  } else if(element.value === "date") {
+    this.logs=this.logservice.getlogBydate(date.value,this.page,this.size);
+  } else{
+    this.logs=this.logservice.getlogBykind(text1.value,this.page,this.size);
+  }
+  if(this.logs)
+  this.logs.subscribe((data: any[]) => {
+    if (data.length === 0) {
+      this.page -= 2;
+      this.next();
+    }
+  });
+}
 
+brevious(){
+  this.page-=1;
+  if(this.page<0)this.page=0;
+  const element = document.getElementById("mySelect") as HTMLSelectElement;
+    const text1 = document.getElementById("searchInput") as HTMLInputElement;
+    const time1 = document.getElementById("time") as HTMLInputElement;
+    const time2 = document.getElementById("time2") as HTMLInputElement;
+    const date = document.getElementById("date") as HTMLInputElement;
+  if (element.value === "Time") {
+    if(time1.value >= time2.value) alert("Time 1 cant be bigger than time 1 or equal");
+    else{
+      this.logs=this.logservice.getlogBydateAndTime(date.value,time1.value,time2.value,this.page,this.size);
+    }
+  } else if(element.value === "date") {
+    this.logs=this.logservice.getlogBydate(date.value,this.page,this.size);
+  } else{
+    this.logs=this.logservice.getlogBykind(text1.value,this.page,this.size);
+  }
+}
   Back() {
     this.router.navigate(["/process"]);
   }

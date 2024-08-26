@@ -26,7 +26,7 @@ export class AddAccountComponent {
     this.account = data? JSON.parse(data):
     {
       user: {
-        user_name: '',
+        userName: '',
         password: '',
         role: '',
         email: ''

@@ -94,7 +94,7 @@ export class AccountService {
 
   GetAccountByRange(depositFrom: number,depositTo: number,page:number,size:number) {
     const body = {
-      "from": depositFrom+0.00001,
+      "from": depositFrom+0.00000001,
       "to": depositTo+0.0
     };
     return this.http.post<any>(this.url+"/" +`?page=${page}&size=${size}`,body, {
@@ -106,6 +106,7 @@ export class AccountService {
 
   DeleteAccountBycard(card: string): Observable<any> {
     const url = `${this.url}/${card}`;
+    alert(url);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });

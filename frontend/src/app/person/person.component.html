@@ -12,7 +12,7 @@
 <table style="width:90%;margin-left: 5%;">
     @for (item of persons$|async; track $index) {
 <tr >
-    <td style="width:80%;"><p class="text" >{{item.user_name}}</p><td>
+    <td style="width:80%;"><p class="text" >{{item.userName}}</p><td>
         <td style="width:80%;"><p class="text" >{{item.email}}</p><td></td>
         <td style="width:80%;"><p class="text" >{{item.role}}</p><td></td>
     <td><button class="btn btn-warning" style="width:90%;" (click)="Update(item.email)">Update</button><td>

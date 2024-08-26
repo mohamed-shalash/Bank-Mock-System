@@ -46,4 +46,22 @@ public class Account {
     @JoinColumn(name = "id")
     Address address;
 
+    @Override
+    public String toString() {
+        String us="user: {"+
+            "userName= "+user.getUserName()+","+
+                    "password="+user.getPassword()+","+
+                    "role="+user.getRole()+","+
+                    "email="+user.getEmail()+","+
+        "}";
+        return "Account{" +
+                "id=" + id +
+                ", cardNumber='" + cardNumber + '\'' +
+                ", deposit=" + deposit +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                ", user=" +  us +
+                ", address=" + (address!= null ? address.getId(): "null") +
+                '}';
+    }
 }

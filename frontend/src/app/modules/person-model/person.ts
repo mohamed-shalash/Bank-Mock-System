@@ -1,5 +1,5 @@
 export interface Person {
-    user_name: string;
+    userName: string;
     password?: string;
     email: string;
     role: string;

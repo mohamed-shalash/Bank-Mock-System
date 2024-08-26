@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AccountRepo extends JpaRepository<Account,Long> {
@@ -17,7 +18,7 @@ public interface AccountRepo extends JpaRepository<Account,Long> {
     Account findByUserId(@Param("id") int id);
 
     @Query(value = "SELECT * FROM account WHERE card_number = :card",nativeQuery = true)
-    Account findByCardNumber(@Param("card") String card);
+    Optional<Account> findByCardNumber(@Param("card") String card);
     @Query(value = "SELECT * FROM account WHERE card_number = :card and password = :password",nativeQuery = true)
     Account findByCardNumberAndPassword(@Param("card") String card,@Param("password") String password);
 
@@ -27,6 +28,6 @@ public interface AccountRepo extends JpaRepository<Account,Long> {
     @Query(value = "SELECT * FROM account where user_id = (Select id from user where user.email like :email)  ;",nativeQuery = true)
     List<Account> findByUserEmail(@Param("email") String email);
 
-    @Query(value = "delete FROM account WHERE card_number = :card",nativeQuery = true)
+    @Query(value = "delete FROM account WHERE card_number = :card and id != 0",nativeQuery = true)
     void deleteByCardNumber(@Param("card") String card);
 }

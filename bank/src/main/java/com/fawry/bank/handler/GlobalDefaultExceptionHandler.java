@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ControllerAdvice
+//@ControllerAdvice
 class GlobalDefaultExceptionHandler {
     //public static final String DEFAULT_ERROR_VIEW = "error";
 
@@ -29,7 +29,7 @@ class GlobalDefaultExceptionHandler {
         return mav;
     }*/
 
-   @ExceptionHandler(value = Exception.class)
+  /* @ExceptionHandler(value = Exception.class)
    public ResponseEntity<ErrorResponse> defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
        if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
            throw e;
@@ -50,5 +50,5 @@ class GlobalDefaultExceptionHandler {
         }
 
         // Getters and setters
-    }
+    }*/
 }

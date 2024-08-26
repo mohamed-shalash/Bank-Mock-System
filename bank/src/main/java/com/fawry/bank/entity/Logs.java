@@ -13,7 +13,7 @@ import java.time.LocalTime;
 @Data
 @Builder
 @Entity
-@Table(name = "logs")
+@Table(name = "bank_logs")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Logs {
@@ -37,6 +37,5 @@ public class Logs {
     String log;
 
     @NotNull(message = "email cannot be null")
-
     String email;
 }

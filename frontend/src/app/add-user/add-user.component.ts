@@ -38,7 +38,7 @@ export class AddUserComponent {
     
     this.userService.addPerson(this.user).subscribe({
       next: (v) => {  },
-      error: (e) => { console.error(e) },
+      error: (e) => { alert("Error in Adding Email May Be Exist Or Try Again Later"); },
       complete:()=>{}
     });
     this.router.navigate(['/person'])

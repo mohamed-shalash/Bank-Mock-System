@@ -6,12 +6,13 @@ import com.fawry.bank.models.AccountModule;
 import com.fawry.bank.models.CardLogin;
 import com.fawry.bank.service.AccountService;
 import com.fawry.bank.dto.TransactionDto;
+import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -46,37 +47,32 @@ public class AccountController {
     @GetMapping(path = "/",params = {"email"})
     @ResponseStatus(HttpStatus.OK)
     public List<AccountModule> getAccountByUserEmail(@RequestParam("email") String email){
-       // System.out.println(email);
         return accountService.getAccountByEmail(email);
     }
 
 
     @PostMapping("/atm")
     @ResponseStatus(HttpStatus.OK)
-    public AccountModule AtmLogin(@RequestBody CardLogin card){
+    public AccountModule AtmLogin(@Valid @RequestBody CardLogin card){
         return accountService.getAccountByLogIn(card);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addAccount(@Valid @RequestBody AccountModule account){
-        accountService.addAccount(account);
+    public ResponseEntity<String> addAccount(@Valid @RequestBody AccountModule account){
+        String s =accountService.addAccount(account);
+        return new ResponseEntity<>(s, HttpStatus.OK);
     }
-
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void updateAccount(@Valid  @RequestBody  AccountModule account){
-        try {
-            accountService.updateAccount(account);
-        }catch (Exception e){
-            System.out.println(e);
-        }
+        accountService.updateAccount(account);
     }
 
     @PutMapping("/transactions")
     @ResponseStatus(HttpStatus.OK)
-    public void drawFromAccount(@RequestBody TransactionDto transactional){
+    public void drawFromAccount(@Valid @RequestBody TransactionDto transactional){
         if (transactional.getMethod().equals("Draw")) {
             accountService.drawFromAccount(transactional.getCardNumber(), transactional.getAmount());
         }
@@ -86,14 +82,14 @@ public class AccountController {
     }
 
     @PutMapping("/transfer")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public void drawFromAccountToAnother(@Valid @RequestBody TransferDto transferDto) throws Exception {
         accountService.drawFromAccountToAnother(transferDto.getFrom(),transferDto.getTo(),transferDto.getAmount());
     }
 
 
     @DeleteMapping("/{card}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public void deleteAccount( @PathVariable String card){
         accountService.deleteAccount(card);
     }

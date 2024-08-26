@@ -35,7 +35,7 @@ export class PersonService {
 
   addPerson(user: Person) {
     const body = {
-      "user_name": user.user_name,
+      "userName": user.userName,
       "password": user.password,
       "email": user.email,
       "role": user.role,
@@ -50,7 +50,7 @@ export class PersonService {
 
     Update(user: Person) {
       const body = {
-        "user_name": user.user_name,
+        "userName": user.userName,
         "password": user.password,
         "email": user.email,
         "role": user.role,

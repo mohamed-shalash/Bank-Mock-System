@@ -15,7 +15,7 @@ public interface AccountService {
     public List<AccountModule> getAccountByDeposit(double From, double To, Pageable pageable);
 
     public List<AccountModule> getAccountByEmail(String Email);
-    public void addAccount(AccountModule account);
+    public String addAccount(AccountModule account);
 
 
     public void updateAccount(AccountModule account);

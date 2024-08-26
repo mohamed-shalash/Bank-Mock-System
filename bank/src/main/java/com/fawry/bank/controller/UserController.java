@@ -28,14 +28,12 @@ public class UserController {
     @GetMapping(params = {"email","pass"})
     @ResponseStatus(HttpStatus.OK)
     UserModule User(@RequestParam String email,@RequestParam String pass){
-        //System.out.println(email+"   "+pass);
         return userService.getUser(email,pass);
     }
 
     @GetMapping(params = {"email"})
     @ResponseStatus(HttpStatus.OK)
     UserModule GetUser(@RequestParam String email){
-        //System.out.println(email);
         return userService.getUserByEmail(email);
     }
 

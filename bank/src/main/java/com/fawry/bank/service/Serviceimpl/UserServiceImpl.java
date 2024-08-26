@@ -1,5 +1,7 @@
 package com.fawry.bank.service.Serviceimpl;
 
+import com.fawry.bank.handler.ConflictException;
+import com.fawry.bank.handler.RecordNotFoundException;
 import com.fawry.bank.mapper.UserMapper;
 import com.fawry.bank.models.UserModule;
 import com.fawry.bank.entity.Logs;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -23,7 +26,6 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepo userRepository;
-    private final LogRepo logRepo;
     private final UserMapper userMapper;
 
     @Override
@@ -45,60 +47,39 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserModule getUserByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow();
+        User user = userRepository.findByEmail(email).orElseThrow(()->new RecordNotFoundException("User Email Dose Not Exist "));
         return userMapper.userToModuleMapper(user);
     }
 
     @Override
     @Transactional
     public void addUser(UserModule module) {
+        if(!userRepository.findByEmail(module.getEmail()).equals( Optional.empty())) {
+            throw new ConflictException("Email is already exists");
+        }
         User user = userMapper.moduleToUserMapper(module);
         userRepository.save(user);
-
-        logRepo.save(
-                setLog("User_Add","Adding user " + user
-                        ,user.getEmail())
-        );
     }
 
     @Override
     @Transactional
     public void updateUser(UserModule module) {
-        User user = userRepository.findByEmail(module.getEmail()).orElseThrow();
-
-
-        logRepo.save(
-                setLog("User_Update","Update user from " + user + " To " + module
-                        ,user.getEmail())
-        );
-
+        User user = userRepository.findByEmail(module.getEmail()).orElseThrow(()->new RecordNotFoundException("User Email Dose Not Exist "));
         user.setUserName(module.getUserName());
         user.setRole(module.getRole());
         user.setEmail(module.getEmail());
         userRepository.save(user);
-
-
     }
 
     @Override
     @Transactional
     public void delete(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow();
+        User user = userRepository.findByEmail(email).orElseThrow(()->new RecordNotFoundException("User Email Dose Not Exist "));
         userRepository.delete(user);
 
 
-        logRepo.save(
-                setLog("User_Delete","delete user " + user,user.getEmail())
-        );
+
     }
 
-    private Logs setLog(String kind,String logs,String email){
-        return Logs.builder()
-                .date(LocalDate.now())
-                .time(LocalTime.now())
-                .kind(kind)
-                .log(logs)
-                .email(email)
-                .build();
-    }
+
 }

@@ -1,5 +1,6 @@
 package com.fawry.bank;
 
+import com.fawry.bank.entity.enumType.RoleType;
 import com.fawry.bank.repository.AccountRepo;
 import com.fawry.bank.entity.Account;
 import com.fawry.bank.entity.Address;
@@ -23,31 +24,31 @@ public class BankApplication {
 			User user =new User();
 			user.setUserName("mohamed");
 			user.setPassword("123456");
-			user.setRole("Admin");
+			user.setRole(RoleType.Admin);
 			user.setEmail("m.shalash0@gmail.com");
 
 			User user1 =new User();
 			user1.setUserName("tawfeek");
 			user1.setPassword("password");
-			user1.setRole("User");
+			user1.setRole(RoleType.User);
 			user1.setEmail("t.shalash0@gmail.com");
 
 			User user2 =new User();
 			user2.setUserName("basmalla");
 			user2.setPassword("123456");
-			user2.setRole("Maneger");
+			user2.setRole(RoleType.Maneger);
 			user2.setEmail("b.shalash0@gmail.com");
 
 			User user3 =new User();
 			user3.setUserName("m1231");
 			user3.setPassword("password");
-			user3.setRole("User");
+			user3.setRole(RoleType.User);
 			user3.setEmail("mm.shalash0@gmail.com");
 
 			User user4 =new User();
 			user4.setUserName("test");
 			user4.setPassword("test1");
-			user4.setRole("Maneger");
+			user4.setRole(RoleType.Maneger);
 			user4.setEmail("tt.test@gmail.com");
 
 			userRepo.save(user);
@@ -66,7 +67,7 @@ public class BankApplication {
 			User user =new User();
 			user.setUserName("mohamed");
 			user.setPassword("123456");
-			user.setRole("User");
+			user.setRole(RoleType.User);
 			user.setEmail("m2.shalash0@gmail.com");
 			userRepo.save(user);
 

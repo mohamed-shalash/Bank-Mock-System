@@ -22,20 +22,20 @@ public class Logs {
     @Column(name="id")
     long id;
 
-    @NotNull(message = "Date cannot be null")
-    @Column(name="log_date")
+    @Column(name="log_date",nullable = false)
     LocalDate date ;
 
-    @NotNull(message = "Time cannot be null")
-    @Column(name="log_time")
+    @Column(name="log_time",nullable = false)
     LocalTime time;
 
-    @NotNull(message = "kind of log cannot be null")
+    @Column(nullable = false)
     String kind;
 
-    @NotNull(message = "Log cannot be null")
+
+    @Column(nullable = false)
     String log;
 
-    @NotNull(message = "email cannot be null")
+    @Column(nullable = false)
     String email;
+
 }

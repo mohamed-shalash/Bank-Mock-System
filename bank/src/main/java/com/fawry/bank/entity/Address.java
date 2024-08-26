@@ -19,24 +19,19 @@ public class Address {
     @Column(name="id")
     long id;
 
-    @NotNull(message = "country cannot be null")
-    @Column(name="country")
+    @Column(name="country",nullable = false)
     String Country;
 
-    @NotNull(message = "state cannot be null")
-    @Column(name="state")
+    @Column(name="state",nullable = false)
     String State;
 
-    @NotNull(message = "city cannot be null")
-    @Column(name="city")
+    @Column(name="city",nullable = false)
     String City;
 
-    @NotNull(message = "streate cannot be null")
-    @Column(name="streate")
+    @Column(name="streate",nullable = false)
     String Streate;
 
-    @NotNull(message = "houseID cannot be null")
-    @Column(name="houseID")
+    @Column(name="houseID",nullable = false)
     String HouseID;
 
     @OneToOne(mappedBy = "address")

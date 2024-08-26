@@ -21,22 +21,16 @@ public class User {
     @Column(name="id")
     long id;
 
-    @NotNull(message = "User Name cannot be null")
-    @Column(name="userName")
+    @Column(name="userName",nullable = false)
     String userName;
 
-    @NotNull(message = "email cannot be null")
-    @Column(name="email")
+    @Column(name="email",nullable = false)
     String email;
 
-
-    @NotNull(message = "password cannot be null")
-    @Size(min = 5, max = 100, message = "Name must be between 2 and 100 characters")
-    @Column(name="Password")
+    @Column(name="Password",nullable = false)
     String password;
 
-    @NotNull(message = "role cannot be null")
-    @Column(name="Role")
+    @Column(name="Role",nullable = false)
     String role;
 
     @OneToMany(mappedBy = "user")

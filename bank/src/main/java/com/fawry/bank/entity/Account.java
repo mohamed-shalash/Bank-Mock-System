@@ -20,22 +20,17 @@ public class Account {
     @Column(name="id")
     long id;
 
-
-    @NotNull(message = "CardNumber cannot be null")
-    @Column(name="card_number")
+    @Column(name="card_number",nullable = false)
     String cardNumber  ;
 
-    @NotNull(message = "Deposit cannot be null")
     @PositiveOrZero
-    @Column(name="deposit")
+    @Column(name="deposit",nullable = false)
     double deposit  ;//balance
 
-    @NotNull(message = "Phone number cannot be null")
-    @Column(name="phonenumper")
+    @Column(name="phonenumper",nullable = false)
     String phoneNumber ;
 
-    @NotNull(message = "password cannot be null")
-    @Column(name="password")
+    @Column(name="password",nullable = false)
     String password ;
 
     @ManyToOne
